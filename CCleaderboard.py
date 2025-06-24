@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import requests
 import datetime
+import time
 
 # CONFIG
 SUPABASE_URL = "https://terljxozssdrkzrwairb.supabase.co"
@@ -44,6 +45,8 @@ if bg_url:
         unsafe_allow_html=True,
     )
 
+# Auto REFRESH
+while True:
 with placeholder.container():
     st.markdown(
         f"""
@@ -96,3 +99,7 @@ with placeholder.container():
             st.warning("No players returned in leaderboard.")
     except Exception as e:
         st.error(f"Failed to parse leaderboard data.\n\nStatus: {response.status_code}\n\nError: {e}")
+
+        # Wait nad rerun
+        time.sleep(REFRESH_INTERVAL)
+        st.rerun()
