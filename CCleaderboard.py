@@ -47,7 +47,7 @@ if bg_url:
 
 # Auto REFRESH
 while True:
-with placeholder.container():
+    with placeholder.container():
     st.markdown(
         f"""
         <div style='text-align:center;'>
