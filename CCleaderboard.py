@@ -7,6 +7,7 @@ import time
 # CONFIG
 SUPABASE_URL = "https://terljxozssdrkzrwairb.supabase.co"
 SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcmxqeG96c3Nkcmt6cndhaXJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwOTI3OTYsImV4cCI6MjA2NTY2ODc5Nn0.U5DHcsKMsCC95UlHOJTKktznAz0b0ybpueXfQlxyFxQ"
+REFRESH_INTERVAL = 5
 
 # PAGE CONFIG
 st.set_page_config(page_title="Leaderboard", layout="wide")
