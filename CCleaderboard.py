@@ -48,7 +48,7 @@ with placeholder.container():
     st.markdown(
         f"""
         <div style='text-align:center;'>
-            <h1 style='font-size: 3em;'>:trophy: Code Complete Leaderboard :trophy:</h1>
+            <h1 style='font-size: 3em;'>🏆 Code Complete Leaderboard 🏆</h1>
             <p style='font-size: 1.2em;'>Top 3 players – ranked by score and speed.</p>
             <p style='font-size: 1em;'>Auto-refreshed at {datetime.datetime.now().strftime('%H:%M:%S')}</p>
         </div>
@@ -78,7 +78,7 @@ with placeholder.container():
                 with cols[i]:
                     if row is not None:
                         img_size = 150 if i != 1 else 200
-                        rank = [":second_place_medal:", ":first_place_medal:", "🥉"][i]
+                        rank = ["🥈", "🥇", "🥉"][i]
 
                         st.markdown(
                             f"""
