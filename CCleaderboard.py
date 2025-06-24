@@ -78,7 +78,7 @@ with placeholder.container():
                 with cols[i]:
                     if row is not None:
                         img_size = 150 if i != 1 else 200
-                        rank = [":second_place_medal:", ":first_place_medal:", ":third_place_medal:"][i]
+                        rank = [":second_place_medal:", ":first_place_medal:", "🥉"][i]
 
                         st.markdown(
                             f"""
