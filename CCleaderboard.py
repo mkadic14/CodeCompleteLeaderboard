@@ -3,26 +3,21 @@ import pandas as pd
 import requests
 import datetime
 import time
-
 # CONFIG
 SUPABASE_URL = "https://terljxozssdrkzrwairb.supabase.co"
 SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRlcmxqeG96c3Nkcmt6cndhaXJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwOTI3OTYsImV4cCI6MjA2NTY2ODc5Nn0.U5DHcsKMsCC95UlHOJTKktznAz0b0ybpueXfQlxyFxQ"
-REFRESH_INTERVAL = 10
-
+REFRESH_INTERVAL = 10  # in seconds
 # PAGE CONFIG
 st.set_page_config(page_title="Leaderboard", layout="wide")
 placeholder = st.empty()
-
+# HEADERS for Supabase API
 headers = {
     "apikey": SUPABASE_API_KEY,
     "Authorization": f"Bearer {SUPABASE_API_KEY}",
 }
-
-# capitalize names
+# Function to title-case names
 def title_case(name):
-        return " ".join(word.capitalize()
-for word in name.split())
-
+    return " ".join(word.capitalize() for word in name.split())
 # BACKGROUND IMAGE
 bg_response = requests.get(
     f"{SUPABASE_URL}/rest/v1/background?select=pic&limit=1",
@@ -31,7 +26,6 @@ bg_response = requests.get(
 bg_url = None
 if bg_response.status_code == 200 and len(bg_response.json()) > 0:
     bg_url = bg_response.json()[0]["pic"]
-
 if bg_url:
     st.markdown(
         f"""
@@ -50,8 +44,7 @@ if bg_url:
         """,
         unsafe_allow_html=True,
     )
-
-# Auto REFRESH
+# MAIN LOOP
 while True:
     with placeholder.container():
         st.markdown(
@@ -64,36 +57,31 @@ while True:
             """,
             unsafe_allow_html=True,
         )
-
         url = f"{SUPABASE_URL}/rest/v1/rpc/get_leaderboard"
         response = requests.post(
             url,
             headers={**headers, "Content-Type": "application/json"},
             json={},
         )
-
         try:
             top_players = pd.DataFrame(response.json())
-
             if not top_players.empty:
                 reordered = [
                     top_players.iloc[1] if len(top_players) > 1 else None,
                     top_players.iloc[0],
                     top_players.iloc[2] if len(top_players) > 2 else None,
                 ]
-
                 cols = st.columns(3)
                 for i, row in enumerate(reordered):
                     with cols[i]:
                         if row is not None:
                             img_size = 150 if i != 1 else 200
                             rank = ["🥈", "🥇", "🥉"][i]
-
+                            player_name = title_case(row["playername"])
                             st.markdown(
                                 f"""
                                 <div style='text-align: center;'>
-                                    <h2>{rank}
-                                    {title_case(row['playername']}}</h2>
+                                    <h2>{rank} {player_name}</h2>
                                     <img src="{row['picurl']}" width="{img_size}" style="border-radius: 10px; margin: 10px 0;" />
                                     <p><b>Score:</b> {row['finalscore']}<br><b>Time:</b> {row['timetocomplete']}s</p>
                                 </div>
@@ -106,7 +94,21 @@ while True:
                 st.warning("No players returned in leaderboard.")
         except Exception as e:
             st.error(f"Failed to parse leaderboard data.\n\nStatus: {response.status_code}\n\nError: {e}")
-
-        # Wait nad rerun
         time.sleep(REFRESH_INTERVAL)
         st.rerun()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
