@@ -18,6 +18,11 @@ headers = {
     "Authorization": f"Bearer {SUPABASE_API_KEY}",
 }
 
+# capitalize names
+def title_case(name):
+        return " ".join(word.capitalize()
+for word in name.split())
+
 # BACKGROUND IMAGE
 bg_response = requests.get(
     f"{SUPABASE_URL}/rest/v1/background?select=pic&limit=1",
@@ -87,7 +92,8 @@ while True:
                             st.markdown(
                                 f"""
                                 <div style='text-align: center;'>
-                                    <h2>{rank} {row['playername']}</h2>
+                                    <h2>{rank}
+                                    {title_case(row['playername']}}</h2>
                                     <img src="{row['picurl']}" width="{img_size}" style="border-radius: 10px; margin: 10px 0;" />
                                     <p><b>Score:</b> {row['finalscore']}<br><b>Time:</b> {row['timetocomplete']}s</p>
                                 </div>
